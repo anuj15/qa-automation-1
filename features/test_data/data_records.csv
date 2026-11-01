@@ -1,0 +1,9 @@
+id,name,description,category,price,status,quantity
+1,Sample Data 1,First test data record,Active Records,99.99,active,10
+2,Sample Data 2,Second test data record,Active Records,199.99,active,20
+3,Sample Data 3,Third test data record,Archive,299.99,inactive,0
+4,Sample Data 4,Fourth test data record,Active Records,149.99,active,15
+5,Sample Data 5,Fifth test data record,Archive,99.99,inactive,5
+6,Test Record A,Test data for automation,Active Records,75.00,active,25
+7,Test Record B,Another test data,Active Records,125.00,active,18
+8,Legacy Data,Old data to be archived,Archive,50.00,inactive,0

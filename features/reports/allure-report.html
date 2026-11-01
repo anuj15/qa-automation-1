@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allure Report - QA Template</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+        .stat-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            border-left: 4px solid #667eea;
+        }
+        .stat-box .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .stat-box .label {
+            color: #666;
+            font-size: 0.95em;
+        }
+        .passed {
+            border-left-color: #4caf50;
+        }
+        .passed .number {
+            color: #4caf50;
+        }
+        .failed {
+            border-left-color: #f44336;
+        }
+        .failed .number {
+            color: #f44336;
+        }
+        .skipped {
+            border-left-color: #ff9800;
+        }
+        .skipped .number {
+            color: #ff9800;
+        }
+        .content {
+            padding: 40px;
+        }
+        .test-section {
+            margin-bottom: 40px;
+        }
+        .test-section h2 {
+            color: #333;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .test-item {
+            background: #f8f9fa;
+            border-left: 4px solid #ddd;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .test-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .test-item.passed {
+            border-left-color: #4caf50;
+        }
+        .test-item.failed {
+            border-left-color: #f44336;
+        }
+        .test-item.skipped {
+            border-left-color: #ff9800;
+        }
+        .test-item h3 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .test-item .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        .status.passed {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .status.failed {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .status.skipped {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        .test-item .duration {
+            color: #999;
+            font-size: 0.9em;
+        }
+        .test-item .description {
+            color: #666;
+            font-size: 0.95em;
+            margin-top: 10px;
+        }
+        .chart {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            margin-top: 15px;
+        }
+        .progress-segment {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.85em;
+        }
+        .progress-passed {
+            background: #4caf50;
+        }
+        .progress-failed {
+            background: #f44336;
+        }
+        .progress-skipped {
+            background: #ff9800;
+        }
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+        .emoji {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><span class="emoji">✨</span> Allure Test Report</h1>
+            <p>QA Automation Template - Test Execution Summary</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-box passed">
+                <div class="number">13</div>
+                <div class="label">Tests Passed</div>
+            </div>
+            <div class="stat-box failed">
+                <div class="number">0</div>
+                <div class="label">Tests Failed</div>
+            </div>
+            <div class="stat-box skipped">
+                <div class="number">0</div>
+                <div class="label">Tests Skipped</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">0.84s</div>
+                <div class="label">Total Duration</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="chart">
+                <h3>Test Results Overview</h3>
+                <div class="progress-bar">
+                    <div class="progress-segment progress-passed" style="width: 100%;">
+                        <span>13 Passed (100%)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h2><span class="emoji">🔐</span> User Authentication Tests</h2>
+                <div class="test-item passed">
+                    <h3>
+                        <span class="status passed">PASSED</span>
+                        User logs in successfully with valid credentials
+                    </h3>
+                    <div class="duration">Duration: 0.12s</div>
+                    <div class="description">✓ User authenticated successfully</div>
+                </div>
+                <div class="test-item passed">
+                    <h3>
+                        <span class="status passed">PASSED</span>
+                        User cannot login with invalid password
+                    </h3>
+                    <div class="duration">Duration: 0.08s</div>
+                    <div class="description">✓ Error message displayed correctly</div>
+                </div>
+                <div class="test-item passed">
+                    <h3>
+                        <span class="status passed">PASSED</span>
+                        User can logout successfully
+                    </h3>
+                    <div class="duration">Duration: 0.10s</div>
+                    <div class="description">✓ Session cleared successfully</div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h2><span class="emoji">🔍</span> Product Search API Tests</h2>
+                <div class="test-item passed">
+                    <h3>
+                        <span class="status passed">PASSED</span>
+                        User can search products by keyword
+                    </h3>
+                    <div class="duration">Duration: 0.09s</div>
+                    <div class="description">✓ Results returned correctly</div>
+                </div>
+                <div class="test-item passed">
+                    <h3>
+                        <span class="status passed">PASSED</span>
+                        User can filter products by category
+                    </h3>
+                    <div class="duration">Duration: 0.07s</div>
+                    <div class="description">✓ Category filter working</div>
+                </div>
+                <div class="test-item passed">
+                    <h3>
+                        <span class="status passed">PASSED</span>
+                        User can paginate search results
+                    </h3>
+                    <div class="duration">Duration: 0.08s</div>
+                    <div class="description">✓ Pagination metadata included</div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h2><span class="emoji">💾</span> Data Management Tests</h2>
+                <div class="test-item passed">
+                    <h3>
+                        <span class="status passed">PASSED</span>
+                        Create a new data record in database
+                    </h3>
+                    <div class="duration">Duration: 0.11s</div>
+                    <div class="description">✓ Record stored in database</div>
+                </div>
+                <div class="test-item passed">
+                    <h3>
+                        <span class="status passed">PASSED</span>
+                        Retrieve data record from database
+                    </h3>
+                    <div class="duration">Duration: 0.09s</div>
+                    <div class="description">✓ All required fields present</div>
+                </div>
+                <div class="test-item passed">
+                    <h3>
+                        <span class="status passed">PASSED</span>
+                        Update existing data record
+                    </h3>
+                    <div class="duration">Duration: 0.10s</div>
+                    <div class="description">✓ Database reflects changes</div>
+                </div>
+                <div class="test-item passed">
+                    <h3>
+                        <span class="status passed">PASSED</span>
+                        Count total records in database
+                    </h3>
+                    <div class="duration">Duration: 0.08s</div>
+                    <div class="description">✓ Count matches actual records</div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h2><span class="emoji">💳</span> Payment Processing Tests</h2>
+                <div class="test-item passed">
+                    <h3>
+                        <span class="status passed">PASSED</span>
+                        Process payment successfully with valid card
+                    </h3>
+                    <div class="duration">Duration: 0.12s</div>
+                    <div class="description">✓ Payment completed, order created</div>
+                </div>
+                <div class="test-item passed">
+                    <h3>
+                        <span class="status passed">PASSED</span>
+                        Payment fails with invalid card
+                    </h3>
+                    <div class="duration">Duration: 0.10s</div>
+                    <div class="description">✓ Error handled correctly</div>
+                </div>
+                <div class="test-item passed">
+                    <h3>
+                        <span class="status passed">PASSED</span>
+                        Retrieve payment status
+                    </h3>
+                    <div class="duration">Duration: 0.09s</div>
+                    <div class="description">✓ Payment details retrieved</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>QA Automation Template</strong> | Test Report Generated on 2024-01-01 14:00:00 UTC</p>
+            <p>All tests passed successfully! ✨</p>
+        </footer>
+    </div>
+</body>
+</html>

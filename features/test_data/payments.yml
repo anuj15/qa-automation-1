@@ -1,0 +1,36 @@
+payment_scenarios:
+  - transaction_id: TXN-12345
+    amount: 99.99
+    card_number: "4111111111111111"
+    card_valid: true
+    status: completed
+    order_id: ORD-001
+    timestamp: "2024-01-01T10:00:00Z"
+  - transaction_id: TXN-12346
+    amount: 299.99
+    card_number: "4111111111111111"
+    card_valid: true
+    status: completed
+    order_id: ORD-002
+    timestamp: "2024-01-02T15:30:00Z"
+  - transaction_id: TXN-12347
+    amount: 49.99
+    card_number: "4000000000000002"
+    card_valid: false
+    status: failed
+    error: "Invalid card number"
+    timestamp: "2024-01-03T08:15:00Z"
+
+test_cards:
+  valid:
+    number: "4111111111111111"
+    expiry: "12/25"
+    cvv: "123"
+  invalid:
+    number: "4000000000000002"
+    expiry: "12/25"
+    cvv: "123"
+  insufficient_funds:
+    number: "5555555555554444"
+    expiry: "12/25"
+    cvv: "456"

@@ -1,0 +1,78 @@
+# Central configuration file for the {{PROJECT_NAME}} QA automation framework.
+# LOCAL DEFAULTS — overridden by environment variables in CI.
+#
+# ConfigManager (features/utils/config_manager.py) loads this at startup, then merges in env vars and AWS Secrets Manager values.
+#
+# ── File structure ─────────────────────────────────────────────────────────────
+# 1. Global settings  — browser, timeouts, file paths, feature flags
+# 2. Environment blocks (dev / stage / prod) — base URLs and secret key names
+# ──────────────────────────────────────────────────────────────────────────────
+
+# ── Global settings ────────────────────────────────────────────────────────────
+headless: true # true | false
+scope: session # session | function
+suite: bvt # local fallback label used when no explicit pytest -m expression is supplied
+browser: chromium # chromium | firefox | webkit
+environment: dev # dev | stage | prod
+user_type: default # default | admin — drives credential resolution
+reuse_auth_state: true # true | false — reuse existing auth files for UI tests
+retry_attempts: 3 # number of times to retry a failed test before marking as failed
+retry_after_seconds: 2 # seconds to wait before retrying an API call with errors
+static_wait_time: 7 # seconds — post-test sleep for async writes
+dynamic_wait_time: 30000 # milliseconds — explicit-wait ceiling
+aws_region: us-east-2 # AWS Secrets Manager region
+auth_token_path: /api/security/token # URL path to retrieve bearer token after UI login
+capture_video_and_trace: false # true | false — enable video recording and tracing locally; always disabled in CI
+project_name: {{PROJECT_NAME}} QA Automation
+
+# Test-data row indexes are 1-based and include both start and end.
+# Examples: start=1,end=1 runs only first data row; start=1,end=3 runs rows 1,2,3.
+test_data_start_index: 1 # first test-data row to execute (inclusive)
+test_data_end_index: 50 # last test-data row to execute (inclusive)
+
+# ── File paths ────────────────────────────────────────────────────────────────
+results_location: features/results
+auth_file_location: auth/auth.json
+test_data_location: features/test_data
+report_folder_location: features/reports
+log_file_location: features/logs/app.log
+video_file_location: features/reports/video
+payload_location: features/services/payload
+trace_file_location: features/reports/trace.zip
+allure_report_location: features/reports/allure-report
+allure_result_location: features/reports/allure-results
+
+# ── Environment blocks ────────────────────────────────────────────────────────
+dev: &dev_defaults
+  base_url: https://dev.{{company_domain}}.com
+  api_base_url: https://api.dev.{{company_domain}}.com
+  postgres_host: dev-db.{{company_domain}}.com
+  postgres_port: 5432
+  postgres_database: {{project_name}}_qa
+  postgres_username: $POSTGRES_USERNAME_DEV  # env var substitution
+  postgres_password: $POSTGRES_PASSWORD_DEV
+  # AWS Secrets Manager field names for this environment
+  secrets:
+    username: "{{PROJECT_NAME}}/qa/dev/username"
+    password: "{{PROJECT_NAME}}/qa/dev/password"
+    api_token: "{{PROJECT_NAME}}/qa/dev/api_token"
+
+stage:
+  <<: *dev_defaults
+  base_url: https://stage.{{company_domain}}.com
+  api_base_url: https://api.stage.{{company_domain}}.com
+  postgres_host: stage-db.{{company_domain}}.com
+  secrets:
+    username: "{{PROJECT_NAME}}/qa/stage/username"
+    password: "{{PROJECT_NAME}}/qa/stage/password"
+    api_token: "{{PROJECT_NAME}}/qa/stage/api_token"
+
+prod:
+  <<: *dev_defaults
+  base_url: https://{{company_domain}}.com
+  api_base_url: https://api.{{company_domain}}.com
+  postgres_host: prod-db.{{company_domain}}.com
+  secrets:
+    username: "{{PROJECT_NAME}}/qa/prod/username"
+    password: "{{PROJECT_NAME}}/qa/prod/password"
+    api_token: "{{PROJECT_NAME}}/qa/prod/api_token"

@@ -1,0 +1,45 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "john_doe",
+      "email": "john.doe@example.com",
+      "password": "SecurePass123!",
+      "full_name": "John Doe",
+      "role": "user",
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "username": "jane_smith",
+      "email": "jane.smith@example.com",
+      "password": "JaneSecure456!",
+      "full_name": "Jane Smith",
+      "role": "admin",
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "username": "bob_johnson",
+      "email": "bob.johnson@example.com",
+      "password": "BobPass789!",
+      "full_name": "Bob Johnson",
+      "role": "user",
+      "status": "inactive"
+    }
+  ],
+  "test_credentials": {
+    "valid_user": {
+      "username": "john_doe",
+      "password": "SecurePass123!"
+    },
+    "invalid_user": {
+      "username": "john_doe",
+      "password": "WrongPassword"
+    },
+    "admin_user": {
+      "username": "jane_smith",
+      "password": "JaneSecure456!"
+    }
+  }
+}

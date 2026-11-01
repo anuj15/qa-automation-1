@@ -1,0 +1,15 @@
+edge*
+playwright
+pytest
+pytest-bdd
+pytest-xdist
+pyyaml
+sqlalchemy
+psycopg2-binary
+pytest-html
+allure-pytest
+python-dotenv
+boto3
+pandas
+openpyxl
+requests
